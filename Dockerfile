@@ -24,11 +24,9 @@ RUN        apt-get update && \
                build-essential phantomjs ca-certificates locales
 
 RUN        locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
-ADD        . /redbot
-RUN        cd /redbot && python3 setup.py install
-RUN        easy_install3 redbot[dev]
-
-RUN        make --directory=/redbot
+COPY       . /redbot
+WORKDIR    /redbot
+RUN        python3 setup.py install && easy_install3 redbot[dev]
 
 
 # Expose ports.
